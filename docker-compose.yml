@@ -36,6 +36,16 @@ services:
       - desktop_target:/app/packages/desktop/src-tauri/target
       - /tmp/.X11-unix:/tmp/.X11-unix
     ports:
+      - "2001:2001"
+
+  server-template:
+    image: lucidjs
+    command: npm run dev --workspace=templates/server
+    volumes:
+      - .:/app
+      - server-template_root_modules:/app/node_modules
+      - server-template_workspace_modules:/app/templates/server/node_modules
+    ports:
       - "5001:5001"
 
 volumes:
@@ -46,3 +56,5 @@ volumes:
   desktop_root_modules:
   desktop_workspace_modules:
   desktop_target:
+  server-template_root_modules:
+  server-template_workspace_modules:

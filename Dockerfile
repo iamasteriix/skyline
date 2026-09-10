@@ -24,6 +24,7 @@ COPY packages/icons/package*.json     ./packages/icons/
 COPY packages/core/package*.json      ./packages/core/
 COPY packages/cli/package*.json       ./packages/cli/
 COPY packages/desktop/package*.json   ./packages/desktop/
+COPY templates/server/package*.json   ./templates/server/
 
 RUN npm i
 
@@ -33,3 +34,4 @@ COPY packages/icons/    ./packages/icons/
 COPY packages/core/     ./packages/core/
 COPY packages/cli/      ./packages/cli/
 COPY packages/desktop/  ./packages/desktop/
+COPY templates/server/  ./templates/server/

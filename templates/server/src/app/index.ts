@@ -1,0 +1,77 @@
+import type { Express } from 'express';
+import type { Server } from 'http';
+import type { AppAttributes } from './types.js';
+import { createServer } from 'http';
+import { env, logger, requestLogger, } from '@/config/index.js';
+import { onError } from '@/errors/index.js';
+import { createRouter } from './routes.js';
+import express from 'express';
+
+
+/**
+ * Wires up middleware, routes, and start app.
+ */
+const onStart = (
+  app: Express,
+  server: Server,
+): void => {
+  logger.info('Initializing application.');
+
+  // connect to db
+
+  // wire up middleware
+  app.use(requestLogger);
+
+  // routing
+  const router = createRouter();
+  app.use('/', router);
+
+  // start HTTP server
+  server.listen({ port: env.PORT, });
+}
+
+
+/**
+ * Initializes features that require successful server startup.
+ */
+const onReady = (app: Express): void => {
+  // do all the things
+
+  logger.info('Server live and accepting connections.');
+
+  // handle errors
+  app.use(onError);
+}
+
+
+/**
+ * Shuts the server down gracefully
+ */
+const onShutdown = async (server: Server): Promise<void> => {
+  logger.info('Shutting down.');
+
+  // close db connections
+
+  // close server
+  await new Promise<void>(resolve => {
+    server.close(() => {
+      logger.info('Server closed.');
+      resolve();
+    });
+  });
+}
+
+
+export default async (): Promise<AppAttributes> => {
+  const app = express();
+  const server = createServer(app);
+
+  onStart(app, server);
+  onReady(app);
+
+  return {
+    endpoint: env.ENDPOINT,
+    port: env.PORT,
+    shutdown: () => onShutdown(server),
+  };
+}

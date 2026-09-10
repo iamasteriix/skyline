@@ -1,1 +1,1 @@
-# Skyline UI Kit - Native
+# Lucid Native Kit
