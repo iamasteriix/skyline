@@ -1,13 +1,13 @@
 import type { NextFunction, Request, Response } from 'express';
-import { ErrorCodes } from './constants.js';
-import { AppError } from './exceptions.js';
 import { logger } from '@/config/index.js';
+import { ErrorCodes } from './constants.js';
+import { AppError } from './errors.js';
 
 
 /**
  * Express error handling middleware that processes errors and sends appropriate HTTP responses.
  */
-export const onError = (
+export const errorMiddleware = (
   error: unknown,
   request: Request,
   response: Response,
@@ -15,11 +15,13 @@ export const onError = (
 ): void => {
 
   if (error instanceof AppError) {
+    // internal
     request.log?.error(
       { error: error, },
       error.message,
     );
 
+    // sent as response
     response.status(error.statusCode).json({
       error: {
         code: ErrorCodes.internal.code,
@@ -29,8 +31,10 @@ export const onError = (
     return;
   }
   
+  // internal
   logger.error({ err: error }, ErrorCodes.unexpected.message);
 
+  // sent as response
   response.status(500).json({
     error: {
       code: ErrorCodes.internal.code,

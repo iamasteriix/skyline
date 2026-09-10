@@ -1,3 +1,5 @@
 export { ErrorCodes } from './constants.js';
-export { onError } from './middleware.js';
-export { AppError } from './exceptions.js';
+export { errorMiddleware } from './middleware.js';
+export {
+  AppError, NotFoundError, ValidationError, UnauthorizedError, ForbiddenError,
+} from './errors.js';

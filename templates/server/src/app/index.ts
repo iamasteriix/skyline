@@ -3,7 +3,7 @@ import type { Server } from 'http';
 import type { AppAttributes } from './types.js';
 import { createServer } from 'http';
 import { env, logger, requestLogger, } from '@/config/index.js';
-import { onError } from '@/errors/index.js';
+import { errorMiddleware, } from '@/errors/index.js';
 import { createRouter } from './routes.js';
 import express from 'express';
 
@@ -40,7 +40,7 @@ const onReady = (app: Express): void => {
   logger.info('Server live and accepting connections.');
 
   // handle errors
-  app.use(onError);
+  app.use(errorMiddleware);
 }
 
 
@@ -62,7 +62,7 @@ const onShutdown = async (server: Server): Promise<void> => {
 }
 
 
-export default async (): Promise<AppAttributes> => {
+export const createApp = async (): Promise<AppAttributes> => {
   const app = express();
   const server = createServer(app);
 

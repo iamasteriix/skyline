@@ -1,7 +1,7 @@
 import type { Request } from 'express';
+import { pinoHttp } from 'pino-http';
 import { env } from './env.js';
 import pino from 'pino';
-import pinoHttp from 'pino-http';
 
 
 // Pino logs are NDJSON, which is standard for production, but unyeildy for development
