@@ -1,8 +1,8 @@
 {
-  "name": "Lucid - Desktop Kit",
+  "name": "Lucid - Server template",
   "dockerComposeFile": "../../docker-compose.yml",
-  "service": "desktop",
-  "workspaceFolder": "/app/packages/desktop/",
+  "service": "server-template",
+  "workspaceFolder": "/app/templates/server/",
   "customizations": {
     "vscode": {
       "settings": {

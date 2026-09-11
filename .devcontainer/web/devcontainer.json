@@ -1,5 +1,5 @@
 {
-  "name": "LucidJS - Web Kit",
+  "name": "Lucid - Web Kit",
   "dockerComposeFile": "../../docker-compose.yml",
   "service": "web",
   "workspaceFolder": "/app/packages/web/",

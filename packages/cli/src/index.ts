@@ -1,35 +1,17 @@
-import { parseArgs } from 'util';
-import { initFonts, updateFonts, } from './fonts';
+import { Command } from 'commander';
+import { createLucidApp } from './bin';
+import { registerFonts, } from './fonts';
 
 
-/**
- * @todo add one of those guide-manual-things that explain the available command arguments
- */
-const main = (): void => {
-  const { values, positionals, } = parseArgs({
-    args: process.argv.slice(2),
-    options: {
-      web: { type: 'boolean' },
-      ios: { type: 'boolean' },
-      android: { type: 'boolean' },
-    },
-    allowPositionals: true,
-  });
-  const [action, target] = positionals;
-
-  if (action === 'init') {
-    initFonts(values);
-    return;
-  }
-
-  if (action === 'update' && target === 'fonts') {
-    updateFonts(values);
-    return;
-  } else {
-    console.log('Usage: npx lucid-uik update fonts [--web] [--ios] [--android]');
-    return;
-  }
-}
+const program = new Command();
 
 
-main();
+program
+  .name('lucidjs')
+  .description('Create elegant experiences for everyone')
+  .version('0.1.0');
+
+createLucidApp(program);
+registerFonts(program);
+
+program.parse(process.argv);
