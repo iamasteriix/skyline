@@ -36,6 +36,7 @@ const handleUncaughtException = async (error: unknown) => {
 
 const main = async () => {
   const app = await createApp();
+  app.server.listen({ port: app.port, }); // listen for connections
 
   onShutdown = async () => {
     try {

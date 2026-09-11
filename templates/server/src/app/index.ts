@@ -9,12 +9,9 @@ import express from 'express';
 
 
 /**
- * Wires up middleware, routes, and start app.
+ * Wires up middleware, routes, and starts app.
  */
-const onStart = (
-  app: Express,
-  server: Server,
-): void => {
+const onStart = (app: Express): void => {
   logger.info('Initializing application.');
 
   // connect to db
@@ -25,9 +22,6 @@ const onStart = (
   // routing
   const router = createRouter();
   app.use('/', router);
-
-  // start HTTP server
-  server.listen({ port: env.PORT, });
 }
 
 
@@ -45,7 +39,7 @@ const onReady = (app: Express): void => {
 
 
 /**
- * Shuts the server down gracefully
+ * Shuts the server down gracefully.
  */
 const onShutdown = async (server: Server): Promise<void> => {
   logger.info('Shutting down.');
@@ -66,10 +60,12 @@ export const createApp = async (): Promise<AppAttributes> => {
   const app = express();
   const server = createServer(app);
 
-  onStart(app, server);
+  onStart(app);
   onReady(app);
 
   return {
+    app,
+    server,
     endpoint: env.ENDPOINT,
     port: env.PORT,
     shutdown: () => onShutdown(server),
